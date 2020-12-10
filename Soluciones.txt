@@ -1,0 +1,100 @@
+Ejercicios de Testing Java
+Daniel Rodríguez población
+
+Ejemplo: countPositive
+1. En este primer ejemplo, el posible fallo puede venir a la hora de decidir si el 0 es un número positivo o no, lo cual puede causar confusión. En el ejemplo de la transparencia el cero cuenta como un número positivo, por lo que a la hora de hacer los tests hay que tenerlo en cuenta.
+2. Al no incluir el cero no cabe dudas de cuáles son positivos.
+   @Test public void arraySinCero() {
+      int arr[] = {2, 4, -5, 6};
+      assertEquals("Array contains zeroes", 3, countPositive.countPositive(arr));
+   }
+3. En este ejemplo contamos el cero como positivo.
+@Test public void arrayConCero() {
+      int arr[] = {3, 1, 0};
+      assertEquals("Array de int con un cero", 3, countPositive.countPositive(arr));
+   }
+
+4. En este ejemplo fallará si no hemos contado el cero como otro valor positivo.
+@Test public void arrayConCeroMal() {
+      int arr[] = {3, 1, 0};
+      assertEquals("Array de int con un cero", 2, countPositive.countPositive(arr));
+   }
+
+En este caso no haría falta ninguna corrección en el código.
+
+
+
+
+Ejemplo: lastZero
+1. En este caso, el error aparecerá si en el test aparece más de un cero. Para solucionar este error tenemos que añadir una variable entera que almacene la posición del último cero a lo largo del bucle for, y retornarla después de recorrerlo.
+
+2. No ejecutaremos el error cuando en el test no tengamos ningún cero.
+@Test public void sinCeros() {
+        int arr[] = {1, 2, 3};
+        assertEquals("Multiple zeroes: should find last one", 0, LastZero.lastZero(arr));
+  }
+
+3. Si ejecutamos el test con un solo cero no da error.
+@Test public void unCero() {
+        int arr[] = {1, 0};
+        assertEquals("Multiple zeroes: should find last one", 1, LastZero.lastZero(arr));
+    }
+
+4. Con dos ceros sí que nos aparecerá el error en el test.
+    @Test public void variosCeros() {
+        int arr[] = {0, 1, 0};
+        assertEquals("Multiple zeroes: should find last one", 2, LastZero.lastZero(arr));
+    }
+
+
+
+
+
+Ejemplo: findLast
+1. En este ejemplo, el fallo lo encontraremos si el último valor del entero que buscamos se encuentra en la primera posición del array. La solución es fácil, y es agregar un igual en la condición del bucle for (i >= 0) para tener en cuenta esta posición.
+
+2. No ejecutará la ocurrencia cuando no se encuentre en la primera posición.
+   @Test   public void terceraPosicion() {
+      int arr[] = {1, 2, 3, 4, 5};
+      int y = 4;
+      assertEquals("Última ocurrencia en la posición", 3, findLast.findLast(arr, y));
+   }
+
+3. El error se ejecutará pero no aparecerá cuando la última ocurrencia no sea la primera posición.
+   @Test  public void terceraPosicionError() {
+      int arr[] = {3, 2, 3, 4};
+      int y = 3;
+      assertEquals("Última ocurrencia en la posición", 2, findLast.findLast(arr, y));
+   }
+
+4. El error aparecerá cuando es el primer elemento del array la última ocurrencia.
+   @Test public void primerElementoUltimaOcurrencia()  {
+      int arr[] = {1, 2, 3};
+      int y = 1;
+      assertEquals("Última ocurrencia en la posición", 0, findLast.findLast(arr, y));
+   }
+
+
+
+
+
+Ejemplo: OddOrPos
+1. El error en este ejemplo viene cuando queremos ver si un número negativo es impar, ya que no lo cuenta. La solución viene haciendo el valor absoluto en el if para comprobar si es impar.
+
+2. No ejecutamos el fallo si no hay número negativos.
+   @Test public void OddNumbers() {
+      int arr[] = {1, 6};
+      assertEquals("Negative odd numbers in array", 2, OddOrPos.oddOrPos(arr));
+   }
+
+3. Si ejecutamos números negativos pares, no veremos el error.
+   @Test public void notOddNumbers() {
+      int arr[] = {-2, 3, 6};
+      assertEquals("Negative odd numbers in array", 1, OddOrPos.oddOrPos(arr));
+   }
+
+4. Cuando ponemos impares negativos aparecen los errores.
+   @Test public void negativeOddNumbers() {
+      int arr[] = {-3, -2, 0, 1, 4};
+      assertEquals("Negative odd numbers in array", 3, OddOrPos.oddOrPos(arr));
+   }
